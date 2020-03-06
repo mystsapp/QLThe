@@ -1,0 +1,145 @@
+﻿@model IEnumerable<QLThe.Data.Models.User>
+@using Newtonsoft.Json;
+
+@{
+    ViewData["Title"] = "Edit";
+    List<User> user = new List<User>();
+}
+
+<h1>Edit</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    <form asp-action="Edit" method="post" id="frmExportAll">
+                        <input type="hidden" name="list" id="stringId"/>
+                        <input type="button" id="btnExportAll" value="submit" />
+                    </form>
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Username)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Password)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.HoTen)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MaCN)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ChiNhanh)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PhongBan)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.VanPhong)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DoiMK)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NgayDoiMK)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TrangThai)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Khoi)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NguoiTao)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Ngaytao)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NguoiCapNhat)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Ngaycapnhat)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Role)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    <input type="checkbox" class="ckId" data-username="@item.Username" data-password="@item.Password" data-hoten="@item.HoTen" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Username)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Password)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HoTen)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MaCN)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ChiNhanh.MaCN)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhongBan)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VanPhong)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DoiMK)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NgayDoiMK)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TrangThai)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Khoi)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NguoiTao)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ngaytao)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NguoiCapNhat)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ngaycapnhat)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Role.Id)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+            }
+
+        </tbody>
+    </table>
+   
+@section Scripts{ 
+    <script src="~/indexTestController.js"></script>
+}

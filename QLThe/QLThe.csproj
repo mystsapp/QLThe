@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20200227093226_initialDb.cs" />
+    <Compile Remove="Migrations\20200227093226_initialDb.Designer.cs" />
+    <Compile Remove="Migrations\20200228041447_fixRole.cs" />
+    <Compile Remove="Migrations\20200228041447_fixRole.Designer.cs" />
+    <Compile Remove="Migrations\20200229052537_addMaCNKey1.cs" />
+    <Compile Remove="Migrations\20200229052537_addMaCNKey1.Designer.cs" />
+    <Compile Remove="Migrations\20200229053122_fixUser.cs" />
+    <Compile Remove="Migrations\20200229053122_fixUser.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
+    <PackageReference Include="X.PagedList.Mvc.Core" Version="7.9.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\js\Admin\User\createController.js" />
+    <None Include="wwwroot\js\Admin\User\editController.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="NumToWords">
+      <HintPath>E:\MS\Tools\NumToWords.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+
+
+</Project>

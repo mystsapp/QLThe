@@ -1,0 +1,255 @@
+﻿@using X.PagedList;
+@using X.PagedList.Mvc.Core
+@using X.PagedList.Mvc.Core.Common
+
+@model CapTheViewModel
+
+@{
+    ViewData["Title"] = "Cap The";
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <a class="btn btn-outline-info" asp-action="Create" asp-route-strUrl="@Model.StrUrl"><i class="fas fa-plus"></i>&nbsp; Thêm Mới</a>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="/CapThes/Index">Home</a></li>
+                    <li class="breadcrumb-item active">Danh Sách Cấp Thẻ</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+    <!-- Default box -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title"><i class="fas fa-search text-info"></i> Tìm Kiếm</h3>
+
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                    <i class="fas fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-tool" data-card-widget="remove" data-toggle="tooltip" title="Remove">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+            <form method="get" autocomplete="off" id="frmCapThe">
+
+                <div class="container" style="padding-bottom:10px; background-color: aliceblue;">
+                    @* we will add search criteria *@
+
+                    <div class="col-12">
+                        <div class="row" style="padding-top: 10px;">
+
+                            <div class="col-2">
+                                Nhập thông tin
+                            </div>
+                            <div class="col-3">
+                                @*@Html.Editor("searchName", new { htmlAttributes = new { @class = "form-control", @value="@ViewData["currentFilter"]" } })*@
+                                <input class="form-control" name="searchName" value="@ViewData["searchName"]" />
+                            </div>
+
+                            <div class="col-2">
+                                Ngày cấp
+                            </div>
+
+                            <div class="col-3">
+                                <input class="form-control maskInput" name="searchDate" value="@ViewData["searchDate"]" />
+                            </div>
+
+                            <input type="hidden" name="maCT" id="hidMaCT" />
+                            <div class="col-2">
+                                <button type="submit" class="btn btn-primary form-control" id="btnSubmit">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+</section>
+<!-- /.content -->
+<!-- Main content -->
+<section class="content">
+
+    <!-- Default box -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title"><i class="fas fa-list-alt text-info"></i> Danh Sách Cấp Thẻ</h3>
+
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                    <i class="fas fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-tool" data-card-widget="remove" data-toggle="tooltip" title="Remove">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+
+            <div style="overflow-x:auto;">
+                @if (ViewBag.CaptheDtos != 0)
+                {
+                    <table class="table mytable text-nowrap" id="listAll">
+                        <thead>
+                            <tr class="table-info">
+                                <th>#</th>
+                                <th>@Html.DisplayNameFor(m => m.CapTheDtos.FirstOrDefault().MaCapThe)</th>
+                                <th>@Html.DisplayNameFor(m => m.CapTheDtos.FirstOrDefault().NgayCap)</th>
+                                <th>@Html.DisplayNameFor(m => m.CapTheDtos.FirstOrDefault().NguoiCap)</th>
+                                <th>@Html.DisplayNameFor(m => m.CapTheDtos.FirstOrDefault().Httt)</th>
+                                <th>@Html.DisplayNameFor(m => m.CapTheDtos.FirstOrDefault().ChiNhanh)</th>
+                                <th>@Html.DisplayNameFor(m => m.CapTheDtos.FirstOrDefault().VanPhong)</th>
+                                <th>@Html.DisplayNameFor(m => m.CapTheDtos.FirstOrDefault().NguoiNhan)</th>
+                                <th>@Html.DisplayNameFor(m => m.CapTheDtos.FirstOrDefault().TongSoLuong)</th>
+                                <th>Tiền bằng chử</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in Model.CapTheDtos)
+                            {
+                                <tr class="cursor-pointer" @*onclick="location.href = '@(Url.Action("Index", "CapThes", new { maCT = item.MaCapThe }))'"*@>
+                                    <td style="width:150px;">
+                                        <div class="btn-group text-white" role="group">
+                                            <a class="btn btn-primary btn-sm" asp-route-id="@item.MaCapThe" asp-route-strUrl="@Model.StrUrl" asp-action="Edit"><i class="fas fa-edit"></i></a>
+
+                                            <a class="btn btn-success btn-sm" asp-route-id="@item.MaCapThe" asp-route-strUrl="@Model.StrUrl" asp-action="Details"><i class="fas fa-list"></i></a>
+
+                                            <a class="btn btn-danger btn-sm " asp-route-id="@item.MaCapThe" asp-route-strUrl="@Model.StrUrl" asp-action="Delete"><i class="fas fa-trash-alt"></i></a>
+                                        </div>
+                                    </td>
+                                    <td>@Html.DisplayFor(m => item.MaCapThe)</td>
+                                    <td>
+                                        @if (item.NgayCap.HasValue)
+                                        {
+                                            @Html.Raw(item.NgayCap.Value.ToString("dd/MM/yyyy"))
+
+                                        }
+                                    </td>
+                                    @*<td>@string.Format("{0:0,0}", item.Gia) VNĐ</td>*@
+                                    <td class="tdVal" data-id="@item.MaCapThe">@Html.DisplayFor(m => item.NguoiCap)</td>
+                                    <td class="tdVal" data-id="@item.MaCapThe">@Html.DisplayFor(m => item.Httt)</td>
+                                    <td class="tdVal" data-id="@item.MaCapThe">@Html.DisplayFor(m => item.ChiNhanh)</td>
+                                    <td class="tdVal" data-id="@item.MaCapThe">@Html.DisplayFor(m => item.VanPhong)</td>
+                                    <td class="tdVal" data-id="@item.MaCapThe">@Html.DisplayFor(m => item.NguoiNhan)</td>
+                                    <td class="tdVal" data-id="@item.MaCapThe">@Html.DisplayFor(m => item.TongSoLuong)</td>
+                                    <td class="tdVal" data-id="@item.MaCapThe">@Html.DisplayFor(m => item.TienBangChu)</td>
+                                </tr>
+
+                            }
+
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <span> No data. </span>
+                }
+
+                @if (ViewBag.CaptheDtos != 0)
+                {
+                    @Html.PagedListPager((IPagedList)ViewBag.CapThe, page => Url.Action("Index", new
+               {
+                   page = page,
+                   option = Context.Request.Query["option"],
+                   searchName = @ViewData["searchName"],
+                   searchDate = @ViewData["searchDate"]
+               }),
+                        PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new PagedListRenderOptions
+                        {
+                            LiElementClasses = new string[] { "page-item" },
+                            PageClasses = new string[] { "page-link" },
+                            MaximumPageNumbersToDisplay = 5,
+                            UlElementClasses = new[] { "pagination" },
+                            ContainerDivClasses = new[] { "pagination-container" }
+                        }, new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "nameListContainer" }))
+                }
+            </div>
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+</section>
+<!-- /.content -->
+<!-- Main content -->
+<section class="content">
+
+    <!-- Default box -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title"><i class="fas fa-list-alt text-info"></i> Thông Tin Chi Tiết</h3>
+
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                    <i class="fas fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-tool" data-card-widget="remove" data-toggle="tooltip" title="Remove">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+
+            <partial name="~/Views/Shared/_CapThePartial.cshtml" model="@Model"/>
+
+            
+            @*////////////////////////////////////////////////////*@
+
+        </div>
+        <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+</section>
+<!-- /.content -->
+
+@section Scripts{
+    <script>
+        $('.cursor-pointer').click(function () {
+            if ($(this).hasClass("hoverClass"))
+                $(this).removeClass("hoverClass");
+            else {
+                $('tr.hoverClass').removeClass("hoverClass");
+                $(this).addClass("hoverClass");
+            }
+
+        });
+
+         $('.listAllTab').DataTable({
+            "paging": true,
+            "lengthChange": true,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+        });
+    </script>
+    <style>
+        #listAll .cursor-pointer:hover {
+            background-color: #3E5C9A;
+            cursor: pointer;
+            color: white;
+        }
+
+        .hoverClass {
+            background-color: #3E5C9A;
+            color: white;
+        }
+    </style>
+    <script src="~/js/Admin/CapThe/indexController.js"></script>
+}

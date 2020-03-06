@@ -1,0 +1,103 @@
+﻿@model CapTheViewModel
+
+<div class="row">
+    <div class="col-12">
+        <!-- Custom Tabs -->
+        <div class="card">
+            <div class="card-header d-flex p-0">
+                @*<h3 class="card-title p-3">Tabs</h3>*@
+                <ul class="nav nav-pills ">
+                    <li class="nav-item"><a class="nav-link active" href="#tab_1" data-toggle="tab">Chi tiết cấp thẻ</a></li>
+                    <li class="nav-item"><a class="nav-link " href="#tab_2" data-toggle="tab">Các thẻ đã cấp</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#tab_3" data-toggle="tab">Ghi Chú</a></li>
+
+                </ul>
+            </div><!-- /.card-header -->
+            <div class="card-body">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab_1">
+                        @if (ViewBag.maCT != null)
+                            {
+                                <table class="table mytable text-nowrap listAllTab" id="listAll">
+                                    <thead>
+                                        <tr class="table-info">
+                                            <th>@Html.DisplayNameFor(m => m.ChiTietCapThes.FirstOrDefault().STT)</th>
+                                            <th>@Html.DisplayNameFor(m => m.ChiTietCapThes.FirstOrDefault().SoSeriTu)</th>
+                                            <th>@Html.DisplayNameFor(m => m.ChiTietCapThes.FirstOrDefault().SoSeriDen)</th>
+                                            <th>@Html.DisplayNameFor(m => m.ChiTietCapThes.FirstOrDefault().MenhGia)</th>
+                                            <th>@Html.DisplayNameFor(m => m.ChiTietCapThes.FirstOrDefault().SoLuong)</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @foreach (var item in Model.ChiTietCapThes)
+                                        {
+                                            <tr class="cursor-pointer" @*onclick="location.href = '@(Url.Action("Index", "CapThes", new { maCT = item.MaCapThe }))'"*@>
+
+                                                <td>@Html.DisplayFor(m => item.STT)</td>
+                                                <td>@Html.DisplayFor(m => item.SoSeriTu)</td>
+                                                @*<td>@string.Format("{0:0,0}", item.Gia) VNĐ</td>*@
+                                                <td>@Html.DisplayFor(m => item.SoSeriDen)</td>
+                                                <td>@Html.DisplayFor(m => item.MenhGia)</td>
+                                                <td>@Html.DisplayFor(m => item.SoLuong)</td>
+                                            </tr>
+
+                                        }
+
+                                    </tbody>
+                                </table>
+                            }
+
+                    </div>
+                    <!-- /.tab-pane -->
+                    <div class="tab-pane " id="tab_2">
+                        @if (ViewBag.maCT != null)
+                        {
+                            <table class="table mytable text-nowrap listAllTab" id="listAll">
+                                <thead>
+                                    <tr class="table-info">
+                                        <th>@Html.DisplayNameFor(m => m.ThongTinThes.FirstOrDefault().SoSeri)</th>
+                                        <th>@Html.DisplayNameFor(m => m.ThongTinThes.FirstOrDefault().Gia)</th>
+                                        <th>@Html.DisplayNameFor(m => m.ThongTinThes.FirstOrDefault().Trangthai)</th>
+                                        <th>@Html.DisplayNameFor(m => m.ThongTinThes.FirstOrDefault().Hinh1)</th>
+                                        <th>@Html.DisplayNameFor(m => m.ThongTinThes.FirstOrDefault().Hinh2)</th>
+                                        <th>@Html.DisplayNameFor(m => m.ThongTinThes.FirstOrDefault().GhiChu)</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @foreach (var item in Model.ThongTinThes)
+                                    {
+                                        <tr class="cursor-pointer" @*onclick="location.href = '@(Url.Action("Index", "CapThes", new { maCT = item.MaCapThe }))'"*@>
+
+                                            <td>@Html.DisplayFor(m => item.SoSeri)</td>
+                                            <td>@Html.DisplayFor(m => item.Gia)</td>
+                                            @*<td>@string.Format("{0:0,0}", item.Gia) VNĐ</td>*@
+                                            <td>@Html.DisplayFor(m => item.Trangthai)</td>
+                                            <td>@Html.DisplayFor(m => item.Hinh1)</td>
+                                            <td>@Html.DisplayFor(m => item.Hinh2)</td>
+                                            <td>@Html.DisplayFor(m => item.GhiChu)</td>
+                                        </tr>
+
+                                    }
+
+                                </tbody>
+                            </table>
+                        }
+                    </div>
+                    <!-- /.tab-pane -->
+                    <div class="tab-pane" id="tab_3">
+                        <span>@ViewBag.GhiChuCapTheByMaCT</span>
+                    </div>
+                    <!-- /.tab-pane -->
+                </div>
+                <!-- /.tab-content -->
+            </div><!-- /.card-body -->
+        </div>
+        <!-- ./card -->
+    </div>
+    <!-- /.col -->
+</div>
+
