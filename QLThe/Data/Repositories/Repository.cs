@@ -28,6 +28,11 @@ namespace QLThe.Data.Repositories
             _context.Add(entity);
             // Save();
         }
+        public async Task CreateRangeAsync(IEnumerable<T> entity)
+        {
+            await _context.AddRangeAsync(entity);
+            // Save();
+        }
 
         public void Delete(T entity)
         {

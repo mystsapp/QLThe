@@ -8,13 +8,13 @@ namespace QLThe.Data.Models
     public class ThongTinThe
     {
         [Key]
-        [DisplayName("Seri Từ")]
+        [DisplayName("Seri từ")]
         [MaxLength(15), Column(TypeName = "varchar(15)")]
         public string SoSeri { get; set; }
 
         //public string MaCapThe { get; set; }
 
-        [DisplayName("Cấp Thẻ")]
+        [DisplayName("Mã cấp thẻ")]
         public string MaCapThe { get; set; }
 
         [ForeignKey("MaCapThe")]
@@ -23,22 +23,22 @@ namespace QLThe.Data.Models
         [DisplayName("Giá")]
         public decimal? Gia { get; set; }
 
-        [DisplayName("Người Phát Hành")]
+        [DisplayName("Người phát hành")]
         [MaxLength(50), Column(TypeName = "nvarchar(50)")]
         public string NguoiPhatHanh { get; set; }
 
-        [DisplayName("Ngày Phát Hành")]
+        [DisplayName("Ngày phát hành")]
         public DateTime? NgayPhatHanh { get; set; }
 
-        [DisplayName("Văn Phòng")]
+        [DisplayName("Văn phòng")]
         [MaxLength(50), Column(TypeName = "nvarchar(50)")]
         public string NoiNhan { get; set; }
 
-        [Display(Name = "Người Nhận")]
+        [Display(Name = "Người nhận")]
         [MaxLength(50), Column(TypeName = "nvarchar(50)")]
         public string NguoiNhan { get; set; }
 
-        [Display(Name = "Trạng Thái")]
+        [Display(Name = "Trạng thái")]
         [MaxLength(50), Column(TypeName = "nvarchar(50)")]
         public string Trangthai { get; set; }
 
@@ -50,7 +50,7 @@ namespace QLThe.Data.Models
         [MaxLength(50), Column(TypeName = "nvarchar(50)")]
         public string Hinh2 { get; set; }
 
-        [Display(Name = "Ghi Chú")]
+        [Display(Name = "Ghi chú")]
         [MaxLength(250), Column(TypeName = "nvarchar(250)")]
         public string GhiChu { get; set; }
     }

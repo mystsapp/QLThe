@@ -134,8 +134,8 @@
                                             <a class="btn btn-danger btn-sm " asp-route-id="@item.MaCapThe" asp-route-strUrl="@Model.StrUrl" asp-action="Delete"><i class="fas fa-trash-alt"></i></a>
                                         </div>
                                     </td>
-                                    <td>@Html.DisplayFor(m => item.MaCapThe)</td>
-                                    <td>
+                                    <td class="tdVal" data-id="@item.MaCapThe">@Html.DisplayFor(m => item.MaCapThe)</td>
+                                    <td class="tdVal" data-id="@item.MaCapThe">
                                         @if (item.NgayCap.HasValue)
                                         {
                                             @Html.Raw(item.NgayCap.Value.ToString("dd/MM/yyyy"))

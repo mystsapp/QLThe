@@ -17,6 +17,7 @@ namespace QLThe.Data.Interfaces
         T GetByStringId(string id);
         T GetSingleNoTracking(Func<T, bool> predicate);
         void Create(T entity);
+        Task CreateRangeAsync(IEnumerable<T> entity);
         void Update(T entity);
         void Delete(T entity);
         int Count(Func<T, bool> predicate);

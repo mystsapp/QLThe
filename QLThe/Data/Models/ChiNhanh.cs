@@ -33,5 +33,8 @@ namespace QLThe.Data.Models
         //[DisplayName("Khu Vực")]
         //[MaxLength(20), Column(TypeName = "nvarchar(20)")]
         //public string KhuVuc { get; set; }
+
+        [MaxLength(5), Column(TypeName = "varchar(5)")]
+        public string CodeTKH { get; set; }
     }
 }

@@ -14,23 +14,23 @@ namespace QLThe.Data.Models
         //[Key]
         //public string MaCapThe { get; set; }
 
-        [DisplayName("Cấp Thẻ")]
+        [DisplayName("Mã cấp thẻ")]
         public string MaCapThe { get; set; }
 
         [ForeignKey("MaCapThe")]
         public virtual CapThe CapThe { get; set; }
 
-        [DisplayName("Seri Từ")]
+        [DisplayName("Seri từ")]
         [MaxLength(15), Column(TypeName = "varchar(15)")]
         public string SoSeriTu { get; set; }
 
-        [DisplayName("Seri Đến")]
+        [DisplayName("Seri đến")]
         [MaxLength(15), Column(TypeName = "varchar(15)")]
         public string SoSeriDen { get; set; }
 
-        [DisplayName("Mệnh Giá")]
+        [DisplayName("Mệnh giá")]
         public decimal? MenhGia { get; set; }
-        [DisplayName("Số Lượng")]
+        [DisplayName("Số lượng")]
         public int? SoLuong { get; set; }
     }
 }
