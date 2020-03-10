@@ -14,7 +14,7 @@
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="/">Home</a></li>
-                    <li class="breadcrumb-item"><a asp-action="Index">Danh Sách Cấp Thẻ</a></li>
+                    <li class="breadcrumb-item"><a asp-action="DetailsRedirect" asp-route-strUrl="@Model.StrUrl">Danh Sách Cấp Thẻ</a></li>
                     <li class="breadcrumb-item active">Thêm Mới Cấp Thẻ</li>
                 </ol>
             </div>
@@ -149,7 +149,7 @@
                             <label asp-for="ChiTietCapThe.SoSeriTu"></label>
                         </div>
                         <div class="col-4">
-                            <input asp-for="ChiTietCapThe.SoSeriTu" class="form-control" id="txtSeriTu" />
+                            <input type="number" asp-for="ChiTietCapThe.SoSeriTu" class="form-control" id="txtSeriTu" />
                             <span class="text-danger" asp-validation-for="ChiTietCapThe.SoSeriTu"></span>
                         </div>
 
@@ -157,7 +157,7 @@
                             <label asp-for="ChiTietCapThe.SoSeriDen"></label>
                         </div>
                         <div class="col-4">
-                            <input asp-for="ChiTietCapThe.SoSeriDen" class="form-control" id="txtSeriDen" />
+                            <input type="number" asp-for="ChiTietCapThe.SoSeriDen" class="form-control" id="txtSeriDen" />
                             <span class="text-danger" asp-validation-for="ChiTietCapThe.SoSeriDen"></span>
                         </div>
                     </div>

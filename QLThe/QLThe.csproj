@@ -13,6 +13,10 @@
     <Compile Remove="Migrations\20200229052537_addMaCNKey1.Designer.cs" />
     <Compile Remove="Migrations\20200229053122_fixUser.cs" />
     <Compile Remove="Migrations\20200229053122_fixUser.Designer.cs" />
+    <Compile Remove="Migrations\20200309034133_fixSTTIdentity.cs" />
+    <Compile Remove="Migrations\20200309034133_fixSTTIdentity.Designer.cs" />
+    <Compile Remove="Migrations\20200309035050_addNewSTTIdentity.cs" />
+    <Compile Remove="Migrations\20200309035050_addNewSTTIdentity.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,6 +38,10 @@
     <Reference Include="NumToWords">
       <HintPath>E:\MS\Tools\NumToWords.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\Images\TheImage\" />
   </ItemGroup>
 
 

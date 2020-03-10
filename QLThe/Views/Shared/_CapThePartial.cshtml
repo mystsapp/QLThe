@@ -17,37 +17,37 @@
                 <div class="tab-content">
                     <div class="tab-pane active" id="tab_1">
                         @if (ViewBag.maCT != null)
-                            {
-                                <table class="table mytable text-nowrap listAllTab" id="listAll">
-                                    <thead>
-                                        <tr class="table-info">
-                                            <th>@Html.DisplayNameFor(m => m.ChiTietCapThes.FirstOrDefault().STT)</th>
-                                            <th>@Html.DisplayNameFor(m => m.ChiTietCapThes.FirstOrDefault().SoSeriTu)</th>
-                                            <th>@Html.DisplayNameFor(m => m.ChiTietCapThes.FirstOrDefault().SoSeriDen)</th>
-                                            <th>@Html.DisplayNameFor(m => m.ChiTietCapThes.FirstOrDefault().MenhGia)</th>
-                                            <th>@Html.DisplayNameFor(m => m.ChiTietCapThes.FirstOrDefault().SoLuong)</th>
+                        {
+                            <table class="table mytable text-nowrap listAllTab" id="listAll">
+                                <thead>
+                                    <tr class="table-info">
+                                        <th>@Html.DisplayNameFor(m => m.ChiTietCapThes.FirstOrDefault().STT)</th>
+                                        <th>@Html.DisplayNameFor(m => m.ChiTietCapThes.FirstOrDefault().SoSeriTu)</th>
+                                        <th>@Html.DisplayNameFor(m => m.ChiTietCapThes.FirstOrDefault().SoSeriDen)</th>
+                                        <th>@Html.DisplayNameFor(m => m.ChiTietCapThes.FirstOrDefault().MenhGia)</th>
+                                        <th>@Html.DisplayNameFor(m => m.ChiTietCapThes.FirstOrDefault().SoLuong)</th>
 
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @foreach (var item in Model.ChiTietCapThes)
+                                    {
+                                        <tr class="cursor-pointer" @*onclick="location.href = '@(Url.Action("Index", "CapThes", new { maCT = item.MaCapThe }))'"*@>
+
+                                            <td>@Html.DisplayFor(m => item.STT)</td>
+                                            <td>@Html.DisplayFor(m => item.SoSeriTu)</td>
+                                            @*<td>@string.Format("{0:0,0}", item.Gia) VNĐ</td>*@
+                                            <td>@Html.DisplayFor(m => item.SoSeriDen)</td>
+                                            <td>@Html.DisplayFor(m => item.MenhGia)</td>
+                                            <td>@Html.DisplayFor(m => item.SoLuong)</td>
                                         </tr>
-                                    </thead>
-                                    <tbody>
 
-                                        @foreach (var item in Model.ChiTietCapThes)
-                                        {
-                                            <tr class="cursor-pointer" @*onclick="location.href = '@(Url.Action("Index", "CapThes", new { maCT = item.MaCapThe }))'"*@>
+                                    }
 
-                                                <td>@Html.DisplayFor(m => item.STT)</td>
-                                                <td>@Html.DisplayFor(m => item.SoSeriTu)</td>
-                                                @*<td>@string.Format("{0:0,0}", item.Gia) VNĐ</td>*@
-                                                <td>@Html.DisplayFor(m => item.SoSeriDen)</td>
-                                                <td>@Html.DisplayFor(m => item.MenhGia)</td>
-                                                <td>@Html.DisplayFor(m => item.SoLuong)</td>
-                                            </tr>
-
-                                        }
-
-                                    </tbody>
-                                </table>
-                            }
+                                </tbody>
+                            </table>
+                        }
 
                     </div>
                     <!-- /.tab-pane -->
@@ -76,8 +76,19 @@
                                             <td>@Html.DisplayFor(m => item.Gia)</td>
                                             @*<td>@string.Format("{0:0,0}", item.Gia) VNĐ</td>*@
                                             <td>@Html.DisplayFor(m => item.Trangthai)</td>
-                                            <td>@Html.DisplayFor(m => item.Hinh1)</td>
-                                            <td>@Html.DisplayFor(m => item.Hinh2)</td>
+                                            <td>
+                                                @if (!string.IsNullOrEmpty(item.Hinh1))
+                                                {
+                                                    <img height="150" class="image" src="@item.Hinh1" />
+                                                }
+
+                                            </td>
+                                            <td>
+                                                @if (!string.IsNullOrEmpty(item.Hinh1))
+                                                {
+                                                    <img height="150" class="image" src="@item.Hinh2" />
+                                                }
+                                            </td>
                                             <td>@Html.DisplayFor(m => item.GhiChu)</td>
                                         </tr>
 

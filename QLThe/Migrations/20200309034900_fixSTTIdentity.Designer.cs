@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QLThe.Data;
 
 namespace QLThe.Migrations
 {
     [DbContext(typeof(QLTheDbContext))]
-    partial class QLTheDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200309034900_fixSTTIdentity")]
+    partial class fixSTTIdentity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -103,11 +105,6 @@ namespace QLThe.Migrations
 
             modelBuilder.Entity("QLThe.Data.Models.ChiTietCapThe", b =>
                 {
-                    b.Property<decimal>("STT")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(18, 0)")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
                     b.Property<string>("MaCapThe")
                         .HasColumnType("varchar(20)");
 
@@ -125,9 +122,7 @@ namespace QLThe.Migrations
                         .HasColumnType("varchar(15)")
                         .HasMaxLength(15);
 
-                    b.HasKey("STT", "MaCapThe");
-
-                    b.HasIndex("MaCapThe");
+                    b.HasKey("MaCapThe");
 
                     b.ToTable("ChiTietCapThes");
                 });

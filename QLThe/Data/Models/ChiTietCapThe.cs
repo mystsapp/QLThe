@@ -10,6 +10,9 @@ namespace QLThe.Data.Models
 {
     public class ChiTietCapThe
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Column(TypeName = "decimal(18, 0)")]
         public decimal STT { get; set; }
         //[Key]
         //public string MaCapThe { get; set; }

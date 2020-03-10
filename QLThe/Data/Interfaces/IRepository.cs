@@ -20,6 +20,7 @@ namespace QLThe.Data.Interfaces
         Task CreateRangeAsync(IEnumerable<T> entity);
         void Update(T entity);
         void Delete(T entity);
+        void DeleteRange(IEnumerable<T> entity);
         int Count(Func<T, bool> predicate);
 
         Task Save();

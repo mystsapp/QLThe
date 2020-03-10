@@ -38,12 +38,27 @@ namespace QLThe.Controllers
         public IActionResult Index(string maCT = null, string searchName = null, string searchDate = null, int page = 1)
         {
             var user = HttpContext.Session.Gets<User>("loginUser").FirstOrDefault();
+            //////////////////// for delete
+            if (maCT != null)
+            {
+                var ct = _unitOfWork.capTheRepository.GetByStringId(maCT);
+                if (ct == null)
+                {
+                    var lastMaCT = _unitOfWork.capTheRepository
+                                          .FindIncludeOne(x => x.VanPhong, y => y.NguoiCap.Equals(user.HoTen))
+                                          .OrderByDescending(x => x.MaCapThe).FirstOrDefault().MaCapThe;
+                    maCT = lastMaCT;
+                }
+            }
+
+            ////////////////////
+
             CapTheVM.StrUrl = UriHelper.GetDisplayUrl(Request);
             ViewData["searchName"] = searchName;
             ViewData["searchDate"] = searchDate;
             CapTheVM.CapTheDtos = _unitOfWork.capTheRepository.ListCapThe(searchName, searchDate, user.HoTen, page);
 
-            ViewBag.CaptheDtos = CapTheVM.CapTheDtos.Count();
+            ViewBag.CaptheDtos = CapTheVM.CapTheDtos == null ? 0 : CapTheVM.CapTheDtos.Count();
             ViewBag.maCT = maCT;
             if (!string.IsNullOrEmpty(maCT))
             {
@@ -51,15 +66,23 @@ namespace QLThe.Controllers
                 CapTheVM.ThongTinThes = _unitOfWork.thongTinTheRepository.Find(x => x.MaCapThe == maCT);
 
                 var capthe = _unitOfWork.capTheRepository.GetByStringId(maCT);
-                ViewBag.GhiChuCapTheByMaCT = capthe.GhiChu;
+                if (!string.IsNullOrEmpty(capthe.GhiChu))
+                {
+                    ViewBag.GhiChuCapTheByMaCT = capthe.GhiChu;
+                }
+                else
+                {
+                    ViewBag.GhiChuCapTheByMaCT = "";
+                }
             }
             ViewBag.CapThe = CapTheVM.CapTheDtos;
             return View(CapTheVM);
         }
 
-        public async Task<IActionResult> Create(string strUrl, string maCN = null, 
+        public async Task<IActionResult> Create(string strUrl, string maCN = null,
                                                                string seriDen = null)
         {
+            CapTheVM.StrUrl = strUrl;
             CapTheVM.ChiNhanhs = _unitOfWork.chiNhanhRepository.GetAll();
 
             CapTheVM.VanPhongs = await _unitOfWork.vanPhongRepository.GetAllIncludeOneAsync(x => x.ChiNhanh);
@@ -80,21 +103,11 @@ namespace QLThe.Controllers
             CapTheVM.HTTTs = _unitOfWork.hTTTRepository.GetAll();
 
             // chi tiet cap the
-            var chiNhanhs = _unitOfWork.chiNhanhRepository.GetAll();
-            var noiNhans = new List<NoiNhanViewModel>();
-            foreach (var chinhanh in chiNhanhs)
-            {
-                noiNhans.Add(new NoiNhanViewModel()
-                {
-                    Name = chinhanh.CodeTKH + " - " + chinhanh.Name,
-                    CodeTKH = chinhanh.CodeTKH
-                });
-            }
-            CapTheVM.NoiNhanViewModels = noiNhans.OrderBy(x => x.CodeTKH);
+            CapTheVM.NoiNhanViewModels = NoiNhanViewModels().OrderBy(x => x.CodeTKH);
             CapTheVM.LoaiThes = _unitOfWork.loaiTheRepository.GetAll();
 
             // so seri
-            CapTheVM.CurrentYear = DateTime.Now.Year.ToString().Substring(2,2);
+            CapTheVM.CurrentYear = DateTime.Now.Year.ToString().Substring(2, 2);
             return View(CapTheVM);
         }
         [HttpPost]
@@ -103,17 +116,18 @@ namespace QLThe.Controllers
             var user = HttpContext.Session.Gets<User>("loginUser").FirstOrDefault();
             CapTheVM.CapThe.NguoiCap = user.HoTen;
             CapTheVM.CapThe.NgayCap = DateTime.Now;
+
             // MaCT
             var lastMaCT = _unitOfWork.capTheRepository
                                       .FindIncludeOne(x => x.VanPhong, y => y.NguoiCap.Equals(user.HoTen))
                                       .OrderByDescending(x => x.MaCapThe).FirstOrDefault().MaCapThe;
             var lastMaCTPrefix = lastMaCT.Split("/")[0];
-            
+
             var maVP = _unitOfWork.vanPhongRepository.Find(x => x.Name == user.VanPhong).SingleOrDefault().MaVP;
             var namTao = DateTime.Now.Year.ToString().Substring(2);
             var nowPrefixMaCT = maVP + namTao;
-            
-            if(lastMaCTPrefix == nowPrefixMaCT)
+
+            if (lastMaCTPrefix == nowPrefixMaCT)
             {
                 var prefixMaCT = lastMaCTPrefix + "/";
                 CapTheVM.CapThe.MaCapThe = GetNextId.NextID(lastMaCT, prefixMaCT);
@@ -140,6 +154,9 @@ namespace QLThe.Controllers
 
             // xuat hoadon
             CapTheVM.CapThe.HoaDon = false;
+
+            // tongsoluong
+            CapTheVM.CapThe.TongSoLuong = CapTheVM.ChiTietCapThe.SoLuong;
             ////////////////////// chi tiet ///////////////////////////////////
             // seriTu, seriDen --> ok (jquery)
             // gia --> tu go~
@@ -148,10 +165,25 @@ namespace QLThe.Controllers
             // ghichu --> tu go~
             // menh gia -->  ok (jquery)
             // soluong --> view
+
+            CapTheVM.ChiTietCapThe.MaCapThe = CapTheVM.CapThe.MaCapThe;
             ////////////////////// thong tin the ////////////////////////////
+            var seriTu = long.Parse(CapTheVM.ChiTietCapThe.SoSeriTu);
+            var seriDen = long.Parse(CapTheVM.ChiTietCapThe.SoSeriDen);
+            var listChiTietCapThe = _unitOfWork.chiTietCapTheRepository.GetAll().Where(x => x.CapThe.NguoiCap == user.HoTen);
             List<ThongTinThe> listTTThe = new List<ThongTinThe>();
-            for(int i = int.Parse(CapTheVM.ChiTietCapThe.SoSeriTu); i <= int.Parse(CapTheVM.ChiTietCapThe.SoSeriDen); i++)
+            for (long i = seriTu; i <= seriDen; i++)
             {
+                foreach (var ctct in listChiTietCapThe)
+                {
+                    if (long.Parse(ctct.SoSeriTu) <= i && i <= long.Parse(ctct.SoSeriDen))
+                    {
+                        SetAlert("Nhiều thẻ đã được cấp trong hệ thống vui lòng kiểm tra lại!", "error");
+                        return Redirect(strUrl);
+
+                    }
+                }
+
                 listTTThe.Add(new ThongTinThe()
                 {
                     SoSeri = i.ToString(),
@@ -163,6 +195,7 @@ namespace QLThe.Controllers
                     NguoiNhan = CapTheVM.CapThe.NguoiNhan,
                     Trangthai = "Nội bộ",
                     GhiChu = CapTheVM.ThongTinThe.GhiChu
+
                 });
             }
             _unitOfWork.capTheRepository.Create(CapTheVM.CapThe);
@@ -183,51 +216,143 @@ namespace QLThe.Controllers
                 var extension = Path.GetExtension(files[0].FileName);
 
                 // hinh 1
-                using (var fileStream = new FileStream(Path.Combine(uploads, CapTheVM.ThongTinThe.SoSeri + "h_1" + extension), 
-                                                                    FileMode.Create))
+                using (var fileStream = new FileStream(Path.
+                                                       Combine(uploads, 
+                                                       listTTTheFromDb.FirstOrDefault().SoSeri + "h_1" + extension),
+                                                       FileMode.Create))
                 {
                     files[0].CopyTo(fileStream);
                 }
-                
-                foreach(var the in listTTTheFromDb)
+
+                foreach (var the in listTTTheFromDb)
                 {
-                    the.Hinh1 = @"\" + SD.ImageFolder + @"\" + CapTheVM.ThongTinThe.SoSeri + "h_1" + extension;
+                    the.Hinh1 = @"\" + SD.ImageFolder + @"\" + listTTTheFromDb.FirstOrDefault().SoSeri + "h_1" + extension;
                 }
 
                 // hinh 2
-                using (var fileStream = new FileStream(Path.Combine(uploads, CapTheVM.ThongTinThe.SoSeri + "h_2" + extension), 
-                                                                    FileMode.Create))
+                using (var fileStream = new FileStream(Path.
+                                                       Combine(uploads, 
+                                                       listTTTheFromDb.FirstOrDefault().SoSeri + "h_2" + extension),
+                                                       FileMode.Create))
                 {
                     files[1].CopyTo(fileStream);
                 }
                 foreach (var the in listTTTheFromDb)
                 {
-                    the.Hinh2 = @"\" + SD.ImageFolder + @"\" + CapTheVM.ThongTinThe.SoSeri + "h_2" + extension;
+                    the.Hinh2 = @"\" + SD.ImageFolder + @"\" + listTTTheFromDb.FirstOrDefault().SoSeri + "h_2" + extension;
                 }
 
             }
-            //else
-            //{
-            //    foreach (var the in listTTTheFromDb)
-            //    {
-            //        the.Hinh1 = "";
-            //        the.Hinh2 = "";
-            //    }
-            //}
+
 
             await _unitOfWork.Complete();
-            return View();
+            SetAlert("Thêm mới thành công.", "success");
+            return Redirect(strUrl);
         }
-        public IActionResult Edit()
+        //public IActionResult Edit()
+        //{
+        //    return View(_unitOfWork.userRepository.GetAll());
+        //}
+
+        //[HttpPost]
+        //public IActionResult Edit(string list)
+        //{
+        //    var idList = JsonConvert.DeserializeObject<List<User>>(list);
+        //    return View();
+        //}
+
+        public async Task<IActionResult> Details(string maCT, string strUrl)
         {
-            return View(_unitOfWork.userRepository.GetAll());
+            CapTheVM.CapThe = _unitOfWork.capTheRepository.FindIncludeOne(x => x.VanPhong, y => y.MaCapThe.Equals(maCT))
+                                                          .SingleOrDefault();
+
+            CapTheVM.StrUrl = strUrl;
+
+            return View(CapTheVM);
         }
-        
-        [HttpPost]
-        public IActionResult Edit(string list)
+
+        public async Task<IActionResult> Delete(string maCT, string strUrl)
         {
-            var idList = JsonConvert.DeserializeObject<List<User>>(list); 
-            return View();
+            CapTheVM.CapThe = _unitOfWork.capTheRepository.FindIncludeOne(x => x.VanPhong, y => y.MaCapThe.Equals(maCT))
+                                                          .SingleOrDefault();
+
+            CapTheVM.StrUrl = strUrl;
+
+            return View(CapTheVM);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeletePost(string maCT, string strUrl)
+        {
+            string webRootPath = _webHostEnvironment.WebRootPath;
+            IEnumerable<ThongTinThe> thongTinThes = await _unitOfWork.thongTinTheRepository.FindAsync(x => x.MaCapThe.Equals(maCT));
+
+            if (thongTinThes == null)
+            {
+                ViewBag.ErrorMessage = "Mã cấp thẻ này " + maCT + " Không tồn tại";
+                return NotFound();
+            }
+
+            else
+            {
+                string upload = Path.Combine(webRootPath, SD.ImageFolder);
+                foreach (var thongtinthe in thongTinThes)
+                {
+                    if (!string.IsNullOrEmpty(thongtinthe.Hinh1))
+                    {
+                        var extension = Path.GetExtension(thongtinthe.Hinh1);
+                        if (System.IO.File.Exists(Path.Combine(upload, thongtinthe.SoSeri + "h_1" + extension)))
+                        {
+                            System.IO.File.Delete(Path.Combine(upload, thongtinthe.SoSeri + "h_1" + extension));
+                        }
+                    }
+                    
+                    if (!string.IsNullOrEmpty(thongtinthe.Hinh2))
+                    {
+                        var extension = Path.GetExtension(thongtinthe.Hinh2);
+                        if (System.IO.File.Exists(Path.Combine(upload, thongtinthe.SoSeri + "h_2" + extension)))
+                        {
+                            System.IO.File.Delete(Path.Combine(upload, thongtinthe.SoSeri + "h_2" + extension));
+                        }
+                    }
+
+                }
+                // xoa thongtinthe
+                _unitOfWork.thongTinTheRepository.DeleteRange(thongTinThes);
+
+                // xoa capthe
+                CapTheVM.CapThe = _unitOfWork.capTheRepository.GetByStringId(maCT);
+                _unitOfWork.capTheRepository.Delete(CapTheVM.CapThe);
+                
+
+                await _unitOfWork.Complete();
+                SetAlert("Xóa thành công!", "success");
+
+                return Redirect(strUrl);
+
+            }
+
+            
+        }
+
+        public IActionResult DetailsRedirect(string strUrl)
+        {
+            return Redirect(strUrl);
+        }
+        public List<NoiNhanViewModel> NoiNhanViewModels()
+        {
+            var chiNhanhs = _unitOfWork.chiNhanhRepository.GetAll();
+            var noiNhans = new List<NoiNhanViewModel>();
+            foreach (var chinhanh in chiNhanhs)
+            {
+                noiNhans.Add(new NoiNhanViewModel()
+                {
+                    Name = chinhanh.CodeTKH + " - " + chinhanh.Name,
+                    CodeTKH = chinhanh.CodeTKH
+                });
+            }
+
+            return noiNhans;
         }
     }
 }

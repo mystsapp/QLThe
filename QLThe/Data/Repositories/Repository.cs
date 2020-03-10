@@ -39,6 +39,12 @@ namespace QLThe.Data.Repositories
             _context.Remove(entity);
             // Save();
         }
+        
+        public void DeleteRange(IEnumerable<T> entity)
+        {
+            _context.RemoveRange(entity);
+            // Save();
+        }
 
         public IEnumerable<T> Find(Func<T, bool> predicate)
         {

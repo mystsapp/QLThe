@@ -78,8 +78,15 @@ namespace QLThe.Data.Repositories
 
             // page the list
             const int pageSize = 2;
+            decimal aa = (decimal)listCapThe.Count / (decimal)pageSize;
+            var bb = Math.Ceiling(aa);
+            if (page > bb)
+            {
+                page--;
+            }
             var listPaged = listCapThe.ToPagedList(page ?? 1, pageSize);
-
+            //if (page > listPaged.PageCount)
+            //    page--;
             // return a 404 if user browses to pages beyond last page. special case first page if no items exist
             if (listPaged.PageNumber != 1 && page.HasValue && page > listPaged.PageCount)
                 return null;
