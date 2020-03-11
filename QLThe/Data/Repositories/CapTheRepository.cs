@@ -33,7 +33,7 @@ namespace QLThe.Data.Repositories
             list = list.Where(x => x.NguoiCap == hoTen);
             if (!string.IsNullOrEmpty(searchName))
             {
-                list = list.Where(x => x.MaCapThe.ToLower().Contains(searchName.ToLower()) || 
+                list = list.Where(x => x.MaCapThe.ToLower().Contains(searchName.ToLower()) ||
                                        x.NguoiCap.ToLower().Contains(searchName.ToLower()) ||
                                        x.NguoiNhan.ToLower().Contains(searchName.ToLower()));
             }
@@ -57,15 +57,22 @@ namespace QLThe.Data.Repositories
                 captheDto.HoaDon = capthe.HoaDon;
                 captheDto.MayTinh = capthe.MayTinh;
 
-                var chitietcapthe = _context.ChiTietCapThes.Where(x => x.MaCapThe == capthe.MaCapThe);
-                if (capthe.TongSoLuong != 0)
+                var chitietcapthes = _context.ChiTietCapThes.Where(x => x.MaCapThe == capthe.MaCapThe);
+                decimal? mengia = 0;
+                foreach (var chitiet in chitietcapthes)
                 {
-                    var mengia = capthe.TongSoLuong * chitietcapthe.SingleOrDefault().MenhGia;
-                    captheDto.TienBangChu = SoSangChu.DoiSoSangChu(mengia.Value.ToString("N0")) + " đồng";
+                    if (capthe.TongSoLuong != 0)
+                    {
+                        mengia += chitiet.SoLuong * chitiet.MenhGia;                       
 
+                    }
+                    else
+                    {
+                        captheDto.TienBangChu = 0.ToString();
+                    }
+                        
+                    captheDto.TienBangChu = SoSangChu.DoiSoSangChu(mengia.Value.ToString("N0")) + " đồng";
                 }
-                else
-                    captheDto.TienBangChu = 0.ToString();
 
                 listCapThe.Add(captheDto);
             }
@@ -91,7 +98,7 @@ namespace QLThe.Data.Repositories
             if (listPaged.PageNumber != 1 && page.HasValue && page > listPaged.PageCount)
                 return null;
 
-            
+
             return listPaged;
         }
     }

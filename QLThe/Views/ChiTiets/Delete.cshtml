@@ -1,6 +1,7 @@
-﻿@model CapTheViewModel
+﻿@model ChiTietViewModel
+
 @{
-    ViewData["Title"] = "CapThe Delete";
+    ViewData["Title"] = "Delete CTCT";
 }
 
 <!-- Content Header (Page header) -->
@@ -14,7 +15,7 @@
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="/">Home</a></li>
                     <li class="breadcrumb-item"><a asp-action="DetailsRedirect" asp-route-strUrl="@Model.StrUrl">Danh Sách Cấp Thẻ</a></li>
-                    <li class="breadcrumb-item active">Xóa Cấp Thẻ</li>
+                    <li class="breadcrumb-item active">Xóa Chi Tiết Cấp Thẻ</li>
                 </ol>
             </div>
         </div>
@@ -27,7 +28,7 @@
     <!-- Default box -->
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title"><i class="fas fa-file text-info"></i> Xóa - @Model.CapThe.MaCapThe</h3>
+            <h3 class="card-title"><i class="fas fa-file text-info"></i>Xóa Chi Tiết Cấp Thẻ</h3>
 
             <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -47,49 +48,87 @@
                     <div class="form-group row">
 
                         <div class="col-2">
-                            <label> Cấp cho chi nhánh</label>
+                            <label asp-for="NoiNhan"></label>
                         </div>
                         <div class="col-4">
-                            <input class="form-control" readonly asp-for="CapThe.MaCN" />
+                            <input class="form-control" readonly asp-for="NoiNhan" />
                         </div>
 
                         <div class="col-2">
-                            <label asp-for="CapThe.VanPhongId"></label>
+                            <label asp-for="LoaiThe"></label>
                         </div>
                         <div class="col-4">
-                            <input class="form-control" readonly asp-for="CapThe.VanPhong.Name" />
+                            <input class="form-control" readonly asp-for="LoaiThe" />
                         </div>
 
                     </div>
 
-
-
                     <div class="form-group row">
 
                         <div class="col-2">
-                            <label asp-for="CapThe.NguoiNhan"></label>
+                            <label asp-for="ChiTietCapThe.SoSeriTu"></label>
                         </div>
                         <div class="col-4">
-                            <input class="form-control" readonly asp-for="CapThe.NguoiNhan" />
+                            <input class="form-control" readonly asp-for="ChiTietCapThe.SoSeriTu" />
                         </div>
 
                         <div class="col-2">
-                            <label asp-for="CapThe.Httt"></label>
+                            <label asp-for="ChiTietCapThe.SoSeriDen"></label>
                         </div>
                         <div class="col-4">
-                            <input class="form-control" readonly asp-for="CapThe.Httt" />
+                            <input class="form-control" readonly asp-for="ChiTietCapThe.SoSeriDen" />
                         </div>
 
                     </div>
 
+                    <div class="form-group row">
+
+                        <div class="col-2">
+                            <label asp-for="ChiTietCapThe.MenhGia"></label>
+                        </div>
+                        <div class="col-4">
+                            <textarea asp-for="ChiTietCapThe.MenhGia" class="form-control" readonly></textarea>
+                        </div>
+
+                        <div class="col-2">
+                            <label asp-for="ChiTietCapThe.SoLuong"></label>
+                        </div>
+                        <div class="col-4">
+                            <textarea asp-for="ChiTietCapThe.SoLuong" class="form-control" readonly></textarea>
+                        </div>
+                    </div>
 
                     <div class="form-group row">
 
                         <div class="col-2">
-                            <label asp-for="CapThe.GhiChu"></label>
+                            <label>Trạng thái</label>
                         </div>
                         <div class="col-4">
-                            <textarea asp-for="CapThe.GhiChu" class="form-control" readonly></textarea>
+                            <input asp-for="ThongTinThe.Trangthai" class="form-control" readonly />
+                        </div>
+
+                        <div class="col-2">
+                            <label asp-for="ThongTinThe.Hinh1"></label>
+                        </div>
+                        <div class="col-4">
+                            <img height="150" src="@Model.ThongTinThe.Hinh1" class="img-fluid" />
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+
+                        <div class="col-2">
+                            <label asp-for="ThongTinThe.Hinh2"></label>
+                        </div>
+                        <div class="col-4">
+                            <img src="@Model.ThongTinThe.Hinh2" height="150" />
+                        </div>
+
+                        <div class="col-2">
+                            <label asp-for="ThongTinThe.GhiChu"></label>
+                        </div>
+                        <div class="col-4">
+                            <textarea readonly asp-for="ThongTinThe.GhiChu" class="form-control"></textarea>
                         </div>
                     </div>
 

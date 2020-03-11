@@ -1,0 +1,151 @@
+﻿@model ChiTietViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Detail</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item"><a asp-action="DetailsRedirect" asp-route-strUrl="@Model.StrUrl">Danh Sách Cấp Thẻ</a></li>
+                    <li class="breadcrumb-item active">Chi Tiết Cấp Thẻ</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+    <!-- Default box -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title"><i class="fas fa-file text-info"></i> Chi Tiết Cấp Thẻ</h3>
+
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+                    <i class="fas fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-tool" data-card-widget="remove" data-toggle="tooltip" title="Remove">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+
+
+            <form method="post" autocomplete="off" enctype="multipart/form-data">
+                <div class="p-4 border rounded">
+
+                    <div class="form-group row">
+
+                        <div class="col-2">
+                            <label asp-for="NoiNhan"></label>
+                        </div>
+                        <div class="col-4">
+                            <input class="form-control" readonly asp-for="NoiNhan" />
+                        </div>
+
+                        <div class="col-2">
+                            <label asp-for="LoaiThe"></label>
+                        </div>
+                        <div class="col-4">
+                            <input class="form-control" readonly asp-for="LoaiThe" />
+                        </div>
+
+                    </div>
+
+                    <div class="form-group row">
+
+                        <div class="col-2">
+                            <label asp-for="ChiTietCapThe.SoSeriTu"></label>
+                        </div>
+                        <div class="col-4">
+                            <input class="form-control" readonly asp-for="ChiTietCapThe.SoSeriTu" />
+                        </div>
+
+                        <div class="col-2">
+                            <label asp-for="ChiTietCapThe.SoSeriDen"></label>
+                        </div>
+                        <div class="col-4">
+                            <input class="form-control" readonly asp-for="ChiTietCapThe.SoSeriDen" />
+                        </div>
+
+                    </div>
+
+                    <div class="form-group row">
+
+                        <div class="col-2">
+                            <label asp-for="ChiTietCapThe.MenhGia"></label>
+                        </div>
+                        <div class="col-4">
+                            <textarea asp-for="ChiTietCapThe.MenhGia" class="form-control" readonly></textarea>
+                        </div>
+                        
+                        <div class="col-2">
+                            <label asp-for="ChiTietCapThe.SoLuong"></label>
+                        </div>
+                        <div class="col-4">
+                            <textarea asp-for="ChiTietCapThe.SoLuong" class="form-control" readonly></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group row">
+
+                        <div class="col-2">
+                            <label>Trạng thái</label>
+                        </div>
+                        <div class="col-4">
+                            <input asp-for="ThongTinThe.Trangthai" class="form-control" readonly />
+                        </div>
+                        
+                        <div class="col-2">
+                            <label asp-for="ThongTinThe.Hinh1"></label>
+                        </div>
+                        <div class="col-4">
+                            <img height="150" src="@Model.ThongTinThe.Hinh1" class="img-fluid" />
+                        </div>
+                    </div>
+                    
+                    <div class="form-group row">
+
+                        <div class="col-2">
+                            <label asp-for="ThongTinThe.Hinh2"></label>
+                        </div>
+                        <div class="col-4">
+                            <img src="@Model.ThongTinThe.Hinh2" height="150" />
+                        </div>
+
+                        <div class="col-2">
+                            <label asp-for="ThongTinThe.GhiChu"></label>
+                        </div>
+                        <div class="col-4">
+                            <textarea readonly asp-for="ThongTinThe.GhiChu" class="form-control"></textarea>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group ">
+                        <a class="btn btn-success" asp-action="DetailsRedirect" asp-route-strUrl="@Model.StrUrl"><i class="fas fa-backward"></i></a>
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+        <!-- /.card-body -->
+
+    </div>
+    <!-- /.card -->
+
+</section>
+<!-- /.content -->

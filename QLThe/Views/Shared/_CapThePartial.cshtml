@@ -21,6 +21,7 @@
                             <table class="table mytable text-nowrap listAllTab" id="listAll">
                                 <thead>
                                     <tr class="table-info">
+                                        <th>#</th>
                                         <th>@Html.DisplayNameFor(m => m.ChiTietCapThes.FirstOrDefault().STT)</th>
                                         <th>@Html.DisplayNameFor(m => m.ChiTietCapThes.FirstOrDefault().SoSeriTu)</th>
                                         <th>@Html.DisplayNameFor(m => m.ChiTietCapThes.FirstOrDefault().SoSeriDen)</th>
@@ -33,15 +34,31 @@
 
                                     @foreach (var item in Model.ChiTietCapThes)
                                     {
-                                        <tr class="cursor-pointer" @*onclick="location.href = '@(Url.Action("Index", "CapThes", new { maCT = item.MaCapThe }))'"*@>
+                                    <tr class="cursor-pointer" @*onclick="location.href = '@(Url.Action("Index", "CapThes", new { maCT = item.MaCapThe }))'"*@>
+                                        <td style="width:150px;">
+                                            <div class="btn-group text-white" role="group">
+                                                @*<a class="btn btn-primary btn-sm" asp-route-id="@item.MaCapThe" asp-route-strUrl="@Model.StrUrl" asp-action="Edit"><i class="fas fa-edit"></i></a>*@
 
-                                            <td>@Html.DisplayFor(m => item.STT)</td>
-                                            <td>@Html.DisplayFor(m => item.SoSeriTu)</td>
-                                            @*<td>@string.Format("{0:0,0}", item.Gia) VNĐ</td>*@
-                                            <td>@Html.DisplayFor(m => item.SoSeriDen)</td>
-                                            <td>@Html.DisplayFor(m => item.MenhGia)</td>
-                                            <td>@Html.DisplayFor(m => item.SoLuong)</td>
-                                        </tr>
+                                                <a class="btn btn-success btn-sm" 
+                                                   asp-route-ChiTietId="@item.STT" 
+                                                   asp-route-strUrl="@Model.StrUrl" 
+                                                   asp-controller="ChiTiets"
+                                                   asp-action="Details"><i class="fas fa-list"></i></a>
+
+                                                <a class="btn btn-danger btn-sm " 
+                                                   asp-route-ChiTietId="@item.STT" 
+                                                   asp-route-strUrl="@Model.StrUrl" 
+                                                   asp-controller="ChiTiets"
+                                                   asp-action="Delete"><i class="fas fa-trash-alt"></i></a>
+                                            </div>
+                                        </td>
+                                        <td>@Html.DisplayFor(m => item.STT)</td>
+                                        <td>@Html.DisplayFor(m => item.SoSeriTu)</td>
+                                        <td>@Html.DisplayFor(m => item.SoSeriDen)</td>
+                                        <td>@string.Format("{0:0,0}", item.MenhGia) VNĐ</td>
+                                        @*<td>@Html.DisplayFor(m => item.SoSeriDen)</td>*@
+                                        <td>@Html.DisplayFor(m => item.SoLuong)</td>
+                                    </tr>
 
                                     }
 
@@ -73,8 +90,8 @@
                                         <tr class="cursor-pointer" @*onclick="location.href = '@(Url.Action("Index", "CapThes", new { maCT = item.MaCapThe }))'"*@>
 
                                             <td>@Html.DisplayFor(m => item.SoSeri)</td>
-                                            <td>@Html.DisplayFor(m => item.Gia)</td>
-                                            @*<td>@string.Format("{0:0,0}", item.Gia) VNĐ</td>*@
+                                            @*<td>@Html.DisplayFor(m => item.Gia.Value.ToString("N0"))</td>*@
+                                            <td>@string.Format("{0:0,0}", item.Gia) VNĐ</td>
                                             <td>@Html.DisplayFor(m => item.Trangthai)</td>
                                             <td>
                                                 @if (!string.IsNullOrEmpty(item.Hinh1))

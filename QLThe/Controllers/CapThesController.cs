@@ -160,8 +160,8 @@ namespace QLThe.Controllers
             ////////////////////// chi tiet ///////////////////////////////////
             // seriTu, seriDen --> ok (jquery)
             // gia --> tu go~
-            // hinhthuc --> ko tinh
-            // hinh1, hinh2 --> nợ
+            // hinhthuc --> noibo
+            // hinh1, hinh2 --> below
             // ghichu --> tu go~
             // menh gia -->  ok (jquery)
             // soluong --> view
@@ -215,32 +215,58 @@ namespace QLThe.Controllers
                 var uploads = Path.Combine(webRootPath, SD.ImageFolder);
                 var extension = Path.GetExtension(files[0].FileName);
 
-                // hinh 1
-                using (var fileStream = new FileStream(Path.
-                                                       Combine(uploads, 
-                                                       listTTTheFromDb.FirstOrDefault().SoSeri + "h_1" + extension),
-                                                       FileMode.Create))
+                for (long i = seriTu; i <= seriDen; i++)
                 {
-                    files[0].CopyTo(fileStream);
+                    // hinh 1
+                    using (var fileStream = new FileStream(Path.
+                                                                Combine(uploads,
+                                                                i + "h_1" + extension),
+                                                                FileMode.Create))
+                    {
+                        files[0].CopyTo(fileStream);
+                    }
+                    var the = _unitOfWork.thongTinTheRepository.GetByStringId(i.ToString());
+                    the.Hinh1 = @"\" + SD.ImageFolder + @"\" + i + "h_1" + extension;
+
+                    // hinh 2
+                    using (var fileStream = new FileStream(Path.
+                                                                           Combine(uploads,
+                                                                           i + "h_2" + extension),
+                                                                           FileMode.Create))
+                    {
+                        files[1].CopyTo(fileStream);
+                    }
+
+                    the.Hinh2 = @"\" + SD.ImageFolder + @"\" + i + "h_2" + extension;
+
                 }
 
-                foreach (var the in listTTTheFromDb)
-                {
-                    the.Hinh1 = @"\" + SD.ImageFolder + @"\" + listTTTheFromDb.FirstOrDefault().SoSeri + "h_1" + extension;
-                }
+                //// hinh 1
+                //using (var fileStream = new FileStream(Path.
+                //                                       Combine(uploads, 
+                //                                       listTTTheFromDb.FirstOrDefault().SoSeri + "h_1" + extension),
+                //                                       FileMode.Create))
+                //{
+                //    files[0].CopyTo(fileStream);
+                //}
 
-                // hinh 2
-                using (var fileStream = new FileStream(Path.
-                                                       Combine(uploads, 
-                                                       listTTTheFromDb.FirstOrDefault().SoSeri + "h_2" + extension),
-                                                       FileMode.Create))
-                {
-                    files[1].CopyTo(fileStream);
-                }
-                foreach (var the in listTTTheFromDb)
-                {
-                    the.Hinh2 = @"\" + SD.ImageFolder + @"\" + listTTTheFromDb.FirstOrDefault().SoSeri + "h_2" + extension;
-                }
+                //foreach (var the in listTTTheFromDb)
+                //{
+                //    the.Hinh1 = @"\" + SD.ImageFolder + @"\" + listTTTheFromDb.FirstOrDefault().SoSeri + "h_1" + extension;
+                //}
+
+                //// hinh 2
+                //using (var fileStream = new FileStream(Path.
+                //                                       Combine(uploads, 
+                //                                       listTTTheFromDb.FirstOrDefault().SoSeri + "h_2" + extension),
+                //                                       FileMode.Create))
+                //{
+                //    files[1].CopyTo(fileStream);
+                //}
+                //foreach (var the in listTTTheFromDb)
+                //{
+                //    the.Hinh2 = @"\" + SD.ImageFolder + @"\" + listTTTheFromDb.FirstOrDefault().SoSeri + "h_2" + extension;
+                //}
 
             }
 
