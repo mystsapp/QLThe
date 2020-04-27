@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -14,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using QLThe.Data;
 using QLThe.Data.Repositories;
+using QLThe.Helps;
 
 namespace QLThe
 {
@@ -30,6 +32,9 @@ namespace QLThe
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<QLTheDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))/*.EnableSensitiveDataLogging()*/);
+
+            var contextDll = new CustomAssemblyLoadContext();
+            contextDll.LoadUnmanagedLibrary(Path.Combine(Directory.GetCurrentDirectory(), "libwkhtmltox.dll"));
 
             services.AddTransient<ICapTheRepository, CapTheRepository>();
             services.AddTransient<IChiNhanhRepository, ChiNhanhRepository>();
@@ -90,6 +95,8 @@ namespace QLThe
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+            
+            Rotativa.AspNetCore.RotativaConfiguration.Setup(env);
         }
     }
 }

@@ -22,7 +22,7 @@ namespace QLThe.Data.Models
         public string Name { get; set; }
 
         [MaxLength(250), Column(TypeName = "nvarchar(250)")]
-        [DisplayName("Ghi Chú")]
+        [DisplayName("Địa chỉ")]
         public string DiaChi { get; set; }
 
         [MaxLength(15)]

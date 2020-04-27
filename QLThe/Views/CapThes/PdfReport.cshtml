@@ -1,0 +1,30 @@
+﻿@model CapTheViewModel
+@{
+    ViewData["Title"] = "PdfReport";
+    Layout = null;
+}
+
+    <table style="position: absolute; top: 0; bottom: 0; left: 0; right: 0;" width="100%">
+        <tr style="height: 25%; background-color:aqua">
+            <td width="50%">
+                <div style="background-color: red; text-align:center"> CÔNG TY TNHH MỘT THÀNH VIÊN  <br />  DỊCH VỤ LỮ HÀNH SAIGONTOURIST </div>
+
+            </td>
+            <td width="50%">
+                <div style="background-color: red; text-align:center"> CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM  <br />  Độc lập - Tự do - Hạnh phúc </div>
+            </td>
+        </tr>
+        <tr style="background-color:aquamarine">
+            <td colspan="2">
+                <div style="position: inherit;background-color:antiquewhite; width: 33%; float: left"> &nbsp;</div>
+                <div style="position: inherit;background-color: blueviolet; width: 33%; float: left; text-align: center">
+                    BIÊN BẢN BÀN GIAO
+                </div>
+                <div style="position: inherit;background-color:antiquewhite; width: 34%; float: right; text-align: center">
+                    <span><strong>Số: </strong> @Model.CapThe.MaCapThe</span>
+                </div>
+            </td>
+            
+        </tr>
+    </table>
+

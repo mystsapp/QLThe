@@ -14,6 +14,7 @@ using QLThe.Data.Repositories;
 using QLThe.Dtos;
 using QLThe.Models;
 using QLThe.Utilities;
+using Rotativa.AspNetCore;
 using X.PagedList;
 
 namespace QLThe.Controllers
@@ -359,6 +360,13 @@ namespace QLThe.Controllers
             }
 
             
+        }
+
+        public async Task<IActionResult> PdfReportAsync(string maCT)
+        {
+            CapTheVM.CapThe = _unitOfWork.capTheRepository.FindIncludeOne(x => x.VanPhong, y => y.MaCapThe.Equals(maCT)).SingleOrDefault();
+            return new ViewAsPdf(CapTheVM);
+            //return View(CapTheVM);
         }
 
         public IActionResult DetailsRedirect(string strUrl)
