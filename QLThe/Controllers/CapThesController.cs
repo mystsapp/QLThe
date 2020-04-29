@@ -362,9 +362,16 @@ namespace QLThe.Controllers
             
         }
 
-        public async Task<IActionResult> PdfReportAsync(string maCT)
+        public async Task<IActionResult> PdfReport(string maCT)
         {
             CapTheVM.CapThe = _unitOfWork.capTheRepository.FindIncludeOne(x => x.VanPhong, y => y.MaCapThe.Equals(maCT)).SingleOrDefault();
+            CapTheVM.ChiTietCapThes = _unitOfWork.chiTietCapTheRepository.Find(y => y.MaCapThe.Equals(maCT));
+            CapTheVM.TongTien = (CapTheVM.ChiTietCapThes.FirstOrDefault().SoLuong * CapTheVM.ChiTietCapThes.FirstOrDefault().MenhGia).Value.ToString("N0");
+            ///// Currency to money
+            string s = NumToWords.SoSangChu.DoiSoSangChu(CapTheVM.TongTien);
+            //string c = AmountToWords.changeCurrencyToWords(hoaDon.ThanhTienVAT.ToString().ToLower());
+            //string t = String.IsNullOrEmpty(loaitien) ? "" : " Exchange rate USD/VND";
+            CapTheVM.TienBangChu = char.ToUpper(s[0]) + s.Substring(1) + " đồng " + "vnd";
             return new ViewAsPdf(CapTheVM);
             //return View(CapTheVM);
         }

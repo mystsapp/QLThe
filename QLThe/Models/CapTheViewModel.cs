@@ -33,5 +33,8 @@ namespace QLThe.Models
         public string LoaiThe { get; set; }
         public string CurrentYear { get; set; }
 
+        public string TongTien { get; set; }
+        public string TienBangChu { get; set; }
+
     }
 }
